@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Autoscaling Load Balancer</title>
+</head>
+<body>
+<h1>Elastic Load Balancing and Amazon EC2 Auto Scaling</h1>
+<h3>Mô hình</h3>
+<div style="text-align: center"><img  src="./auto-scale-elb-02.jpg" /></div>
+<h3>Các steps:</h3>
+<h5>Step 1.1: Tạo EC2 instance.</h5>
+<p>Phần này dễ ko hướng dẫn.</p>
+<h5>Step 1.2: Tạo Security Group.</h5>
+<div style="text-align: left"><img src="./security-group-01.png" /></div>
+<div style="text-align: left"><img src="./security-group-02.png" /></div>
+<h5>Step 2: Tạo Auto Scaling Group từ EC2.</h5>
+<div style="text-align: left"><img src="./auto-scaling-group-01.png" /></div>
+<div style="text-align: left"><img src="./auto-scaling-group-02.png" /></div>
+<h5>Step 3: Tạo Target Group cho Load Balancing.</h5>
+<div style="text-align: left"><img src="./target-group-lb-01.png" /></div>
+<div style="text-align: left"><img src="./target-group-lb-02.png" /></div>
+<div style="text-align: left"><img src="./target-group-lb-03.png" /></div>
+<h5>Step 4: Tạo Load Balancer.</h5>
+<div style="text-align: left"><img src="./create-lb-01.png" /></div>
+<div style="text-align: left"><img src="./create-lb-02.png" /></div>
+<div style="text-align: left"><img src="./create-lb-03.png" /></div>
+<div style="text-align: left"><img src="./create-lb-04.png" /></div>
+<div style="text-align: left"><img src="./create-lb-05.png" /></div>
+<div style="text-align: left"><img src="./create-lb-06.png" /></div>
+<h5>Step 5: Gán Target Groups và Health Check Type cho Target Group(Load Balancing).</h5>
+<div style="text-align: left"><img src="./edit-target-group-lb-01.png" /></div>
+<div style="text-align: left"><img src="./edit-target-group-lb-02.png" /></div>
+<h5>Step 6: Tạo Cloud Swatch Alarm cho ELB.</h5>
+<div style="text-align: left"><img src="./create-lb-alarm-01.png" /></div>
+<div style="text-align: left"><img src="./create-lb-alarm-02.png" /></div>
+<h5>Step 7: Tạo Scaling Policy cho Auto Scaling Group theo Alarm tạo ra từ step 6.</h5>
+<div style="text-align: left"><img src="./add_alarm-to-scaling-group.png" /></div>
+<div style="text-align: left"><img src="./add_alarm-to-scaling-group-02.png" /></div>
+</body>
+</html>
