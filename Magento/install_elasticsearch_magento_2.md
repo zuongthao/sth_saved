@@ -32,6 +32,13 @@ sudo service elasticsearch start
 #### Testing ElasticSearch
 go to http://localhost:9200 and see the JSON response
 
+
+#### add 2 plugins
+cd /usr/share/elasticsearch
+bin/elasticsearch-plugin install analysis-phonetic
+bin/elasticsearch-plugin install analysis-icu
+sudo service elasticsearch restart
+
 #### Integration ElasticSearch & Magento 2
 Edit file Nginx configuration of Magento site then add as 
 ```
