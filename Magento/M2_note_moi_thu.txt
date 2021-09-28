@@ -1,4 +1,7 @@
 ﻿
+ SQLSTATE[HY000]: General error: 1826 Duplicate foreign key constraint name
+ bin/magento setup:db-declaration:generate-whitelist
+ -------------------------------------------------------------------------------
  Error : composer update 
  The following exception is caused by a lack of memory or swap, or not having swap configured
 ...
