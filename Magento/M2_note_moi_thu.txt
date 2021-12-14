@@ -1,6 +1,11 @@
 ﻿
  SQLSTATE[HY000]: General error: 1826 Duplicate foreign key constraint name
  bin/magento setup:db-declaration:generate-whitelist
+ ----if got error----
+ php bin/magento setup:db-declaration:generate-whitelist
+Notice: Undefined index: referenceTable in /vendor/magento/module-developer/Model/Setup/Declaration/Schema/WhitelistGenerator.php on line 208
+---then fix by-----
+not solution yet
  -------------------------------------------------------------------------------
  Error : composer update 
  The following exception is caused by a lack of memory or swap, or not having swap configured
