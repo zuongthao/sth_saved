@@ -10,6 +10,6 @@ INSERT INTO `admin_user` (firstname,lastname,email,username,password,created,log
 VALUES ('Magnus','Test','magnus@localhost.com','magnus',@PASS,NOW(),0,0,1,@EXTRA,NOW());
 
 INSERT INTO `admin_role` (parent_id,tree_level,sort_order,role_type,user_id,role_name) 
-VALUES (1,2,0,'U',(SELECT user_id FROM admin_user WHERE username = 'myuser'),'Firstname');
+VALUES (1,2,0,'U',(SELECT user_id FROM admin_user WHERE username = 'magnus'),'Firstname');
 
 UNLOCK TABLES;
