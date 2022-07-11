@@ -57,6 +57,8 @@ server {
 	set $MAGE_ROOT /var/www/html/ce-235p1s.local/;
         include /var/www/html/ce-235p1s.local/nginx.conf.sample;
 }
+----------
+sudo chown -R magento:magento /var/run/php/
 -----------------------------------UPLOAD CODE & SETUP SITE-------------------------------------------------------------
 create folder 
 mkdir /var/www/_magento_source/
