@@ -1,0 +1,96 @@
+sudo apt install nginx -y
+
+apt install mysql-server -y
+
+#sudo add-apt-repository ppa:ondrej/php
+
+sudo apt update
+-----------------------------------INSTALL php8.3-------------------------------------------------------------
+sudo apt install php8.3 php8.3-cli php8.3-opcache php8.3-mysql php8.3-curl php8.3-zip php8.3-fpm php8.3-mbstring php8.3-dom php8.3-intl php8.3-gd php8.3-bcmath php8.3-soap -y
+
+#sudo update-alternatives --set php /usr/bin/php8.3
+
+-----------------------------------CREATE NEW mysql user-------------------------------------------------------------
+sudo mysql
+CREATE USER 'magento'@'localhost' IDENTIFIED BY 'magento123';
+GRANT ALL PRIVILEGES ON * . * TO 'magento'@'localhost';
+FLUSH PRIVILEGES;
+
+-----------------------------------CREATE NEW DATABASE-------------------------------------------------------------
+mysql -umagento -p
+CREATE DATABASE magento247;
+
+-----------------------------------CREATE NEW ubuntu user-------------------------------------------------------------
+adduser magento
+pass: ohmyprimus1234
+-----------------------------------CHANGE Nginx & PHP configuration-------------------------------------------------------------
+nano /etc/nginx/nginx.conf
+change "user www-data;" to "user magento;"
+------------
+nano /etc/php/8.3/fpm/pool.d/www.conf 
+change some infformation to 
+user = magento
+group = magento
+listen.owner = magento
+listen.group = magento
+
+------------
+create file 
+/etc/nginx/sites-enable/magento.conf
+add 
+upstream fastcgi_backend83 {
+        server  unix:/var/run/php/php8.3-fpm.sock;
+}
+
+------------
+create file 
+/etc/nginx/sites-available/pirus.conf
+add
+server {
+     listen 80;
+     server_name pirus.com;
+     set $MAGE_ROOT /var/www/html/pirus;
+     include /var/www/html/pirus/nginx.conf;
+ }
+------------
+make symlink
+ln -s /etc/nginx/sites-available/pirus.conf /etc/nginx/sites-enable/pirus.conf
+
+-----------------------------------INSTALL & CONFIG elasticsearch-------------------------------------------------------------
+sudo apt install elasticsearch
+sudo nano  /etc/elasticsearch/elasticsearch.yml
+
+uncomment the lines and update the values:
+
+node.name: "ubuntu"
+cluster.name: magento 2.4.7
+network.host: 127.0.0.1
+http.port: 9200
+xpack.security.enabled: false
+
+-----------------------------------UPLOAD CODE & SETUP SITE-------------------------------------------------------------
+create folder 
+mkdir /var/www/html/pirus/
+upload code to /var/www/html/pirus
+Giai nen 
+
+-----------------------------------OR USING COMPOSER-------------------------------------------------------------
+composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.4.7 /var/www/html/pirus
+composer install
+-----------------------------------OR clone site-------------------------------------------------------------
+download composer.json & composer.lock & auth.json from site
+then  run
+composer install
+
+then download app/code & app/design
+
+-----------------------------------BUILD MAGENTO SITE--NON-HTTPS---------------------------------------------------
+php bin/magento setup:install --base-url="https://pirus.com/" --db-host="localhost" --db-name="magento247" --db-user="magento" --db-password="magento123" --admin-firstname="admin" --admin-lastname="admin" --admin-email="admin@localhost.com" --admin-user="admin" --admin-password="admin123" --language="en_US" --currency="USD" --timezone="America/Chicago" --use-rewrites="1" --backend-frontname="admin"
+
+-----------------------------------BUILD MAGENTO SITE---HTTPS-----------------------------------------------------
+php bin/magento setup:install --base-url="https://pirus.com/" --db-host="localhost" --db-name="magento247" --db-user="magento" --db-password="magento123" --admin-firstname="admin" --admin-lastname="admin" --admin-email="admin@localhost.com" --admin-user="admin" --admin-password="admin123" --language="en_US" --currency="USD" --timezone="America/Chicago" --use-rewrites="1" --backend-frontname="admin" --use-secure="1" --base-url-secure="https://pirus.com/" --use-secure-admin="1"
+
+-----------------------------------CREATE NEW MAGENTO ADMIN-----------------------------------------------------
+php bin/magento admin:user:create --admin-user='magnus' --admin-password='magnus123' --admin-email='magnus-admin@localhost.com' --admin-firstname='Magnus' --admin-lastname='Zuong'
+-----------------------------------CHANGE MAGENTO ADMIN PASSWORD-----------------------------------------------------
+php bin/magento admin:user:create --admin-user='admin' --admin-password='admin123' --admin-email='admin@localhost.com' --admin-firstname='Magnus' --admin-lastname='Zuong'
