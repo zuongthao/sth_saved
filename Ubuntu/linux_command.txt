@@ -64,3 +64,7 @@ Export database
 mysqldump -umagento -p --single-transaction --skip-triggers magento1 > magento1.sql
 su dung single-transaction de tranh cac truong hop sau nay import bi thieu bang
 
+---------------------------------------------------------------------------------------------------
+How to fix external hard disk READ ONLY?
+sudo mount -o remount,uid=1000,gid=1000,rw /dev/sdc1
+

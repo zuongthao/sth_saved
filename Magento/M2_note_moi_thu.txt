@@ -1,4 +1,38 @@
 ﻿
+ SQLSTATE[HY000]: General error: 1826 Duplicate foreign key constraint name
+ bin/magento setup:db-declaration:generate-whitelist
+ ----if got error----
+ php bin/magento setup:db-declaration:generate-whitelist
+Notice: Undefined index: referenceTable in /vendor/magento/module-developer/Model/Setup/Declaration/Schema/WhitelistGenerator.php on line 208
+---then fix by-----
+not solution yet
+ -------------------------------------------------------------------------------
+ Error : composer update 
+ The following exception is caused by a lack of memory or swap, or not having swap configured
+...
+[ErrorException]                                   
+  proc_open(): fork failed - Cannot allocate memory 
+ -----------------
+ Enable swap ubuntu
+ https://tecadmin.net/enable-swap-on-ubuntu/
+ then run
+ COMPOSER_MEMORY_LIMIT=-1 composer update
+
+-------------------------------------------------------------------------------
+
+ Fix bug
+ PHP Fatal error:  Uncaught Error: Undefined class constant 'PRE_COMMAND_RUN' in /var/www/html/ce-235p1s.local/vendor/laminas/laminas-dependency-plugin/src/DependencyRewriterPlugin.php:63
+ 
+cd ~/Downloads
+sudo apt-get install curl
+sudo curl -s https://getcomposer.org/installer | php
+which composer
+sudo mv composer.phar /usr/bin/composer
+  -----------------------------------CREATE NEW MAGENTO ADMIN-----------------------------------------------------
+php bin/magento admin:user:create --admin-user='magnus' --admin-password='magnus123' --admin-email='magnus-admin@localhost.com' --admin-firstname='Magnus' --admin-lastname='Zuong'
+-----------------------------------CHANGE MAGENTO ADMIN PASSWORD-----------------------------------------------------
+php bin/magento admin:user:create --admin-user='admin' --admin-password='admin123' --admin-email='admin@localhost.com' --admin-firstname='Magnus' --admin-lastname='Zuong'
+
   --------------------------------------------------------------------------------------------------------------------------------
  mysql.service service hold-off time over scheduling restart
  

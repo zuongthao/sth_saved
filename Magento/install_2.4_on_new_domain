@@ -1,0 +1,85 @@
+Requirements: Create a new Magento 2 website with domain ce-235p1s.local on clean local.
+- Install nginx
+- Install php7.2
+- Install mysql-server
+- Create new mysql user (magento)
+- Create new ubuntu user(for remote host)(use current user on local)
+- Config nginx & php (domain, permission, web folder)
+- Create new database (magento231)
+- Upload/copy code
+- Install Magento 2 website
+
+--------------------------------------------------------------------------------------------------------------
+-----------------------------------INSTALL nginx & mysql server-----------------------------------------------
+sudo apt-get install nginx -y
+
+apt-get install mysql-server -y
+
+-----------------------------------INSTALL php7.2-------------------------------------------------------------
+sudo apt-get install php7.2 php7.2-cli php7.2-json php7.2-opcache php7.2-mysql php7.2-curl -y
+sudo apt-get install php7.2-zip php7.2-fpm php7.2-mbstring php7.2-dom php7.2-intl php7.2-gd -y
+sudo apt-get install php7.2-bcmath php7.2-soap -y
+
+
+-----------------------------------CREATE NEW mysql user-------------------------------------------------------------
+sudo mysql
+CREATE USER 'magento'@'localhost' IDENTIFIED BY 'magento123';
+GRANT ALL PRIVILEGES ON * . * TO 'magento'@'localhost';
+FLUSH PRIVILEGES;
+
+-----------------------------------CREATE NEW ubuntu user-------------------------------------------------------------
+adduser magento
+pass: ohmyprimus1234
+-----------------------------------CHANGE Nginx & PHP configuration-------------------------------------------------------------
+tao thu muc
+/var/www/html/ce-235p1s.local
+------------
+nano /etc/nginx/nginx.conf
+change "user www-data;" to "user magento;"
+------------
+nano /etc/php/7.2/fpm/pool.d/www.conf 
+change some infformation to 
+user = magento
+group = magento
+listen.owner = magento
+listen.group = magento
+
+open file /etc/nginx/sites-available/default
+add 
+upstream fastcgi_backend {
+        server  unix:/var/run/php/php7.2-fpm.sock;
+}
+....
+create new file ce-235p1s.local in /etc/nginx/sites-enabled/
+with content:
+server {
+	server_name ce-235p1s.local;
+	set $MAGE_ROOT /var/www/html/ce-235p1s.local/;
+        include /var/www/html/ce-235p1s.local/nginx.conf.sample;
+}
+-----------------------------------UPLOAD CODE & SETUP SITE-------------------------------------------------------------
+create folder 
+mkdir /var/www/_magento_source/
+mkdir /var/www/_magento_source/m2
+upload code to /var/www/_magento_source/m2
+Giai nen 
+unzip -qq Magento-CE-2.3.1_sample_data-2019-03-18-06-46-56.zip -d mage_ce_231
+copy code trong thu muc /var/www/_magento_source/m2/mage_ce_231 sang /var/www/html/ce-235p1s.local
+
+-----------------------------------CREATE NEW DATABASE-------------------------------------------------------------
+mysql -umagento -p
+CREATE DATABASE magento231;
+-----------------------------------Restart nginx-------------------------------------------------------------------
+sudo chown -R magento:magento /usr/bin/php
+sudo chown -R magento:magento /var/run/php
+sudo chown -R magento:magento /var/log/nginx
+
+Restart nginx by 
+sudo service nginx restart
+sudo service php7.2-fpm restart
+-----------------------------------BUILD MAGENTO SITE--NON-HTTPS---------------------------------------------------
+php bin/magento setup:install --base-url=http://127.0.0.1/magento2/ --db-host=localhost --db-name=magento --db-user=magento --db-password=magento --admin-firstname=Magento --admin-lastname=User --admin-email=user@example.com --admin-user=admin --admin-password=admin123 --language=en_US --currency=USD --timezone=America/Chicago --cleanup-database --sales-order-increment-prefix="ORD$" --session-save=db --use-rewrites=1 --search-engine=elasticsearch7 --elasticsearch-host=es-host.example.com --elasticsearch-port=9200
+
+
+----------------
+sudo chmod -R 777 var/ generated/ pub/static/
